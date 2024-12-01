@@ -1,5 +1,5 @@
 <?php
-session_start(); // Iniciar a sessão
+session_start(); 
 
 require_once("db.php");
 require_once("globals.php");
@@ -17,14 +17,11 @@ if ($type === "register") {
     $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
     $password = filter_input(INPUT_POST, "senha");
     $confirmPassword = filter_input(INPUT_POST, "confirm_password");
-    $sobremim = ""; // Sobremim está vazio por padrão
+    $sobremim = ""; 
 
-    // Validação dos campos obrigatórios
     if ($nickname && $email && $password && $confirmPassword) {
         if ($password === $confirmPassword) {
-            // Verifica se o email já está cadastrado
             if ($userDao->findByEmail($email) === false) {
-                // Cria o usuário
                 $user = new User();
                 $userToken = $user->generateToken();
                 $finalPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -36,10 +33,9 @@ if ($type === "register") {
                 $user->sobremim = $sobremim;
                 $user->data_criacao = date("Y-m-d H:i:s");
 
-                // Criação do usuário no banco
                 $userDao->create($user, true);
                 $message->setMessage("Cadastro realizado com sucesso!", "success", "home.php");
-                exit(); // Evitar que o código continue executando
+                exit(); 
             } else {
                 $message->setMessage("E-mail já cadastrado.", "error", "back");
                 exit();
@@ -60,8 +56,7 @@ if ($type === "register") {
         $authResult = $userDao->authenticateUser($email, $password);
 
         if ($authResult) {
-            // Salva o ID e o nickname do usuário na sessão
-            $_SESSION['user_id'] = $authResult->id; // ID do usuário autenticado
+            $_SESSION['user_id'] = $authResult->id; 
             $_SESSION['user_nickname'] = $authResult->nickname; 
 
             $message->setMessage("Login realizado com sucesso!", "success", "home.php");

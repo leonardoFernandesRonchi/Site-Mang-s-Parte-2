@@ -1,18 +1,14 @@
 <?php
-// Inicia a sessão
 session_start();
 
 
 
-// Inclui arquivos necessários
 include_once("globals.php");
 include_once("models/Message.php");
 
-// Instancia a classe de mensagens e busca mensagem flash
 $message = new Message($BASE_URL);
 $flashMessage = $message->getMessage();
 
-// Checa se o usuário está logado
 $userLoggedIn = isset($_SESSION['user_nickname']) ? $_SESSION['user_nickname'] : null;
 ?>
 <!DOCTYPE html>
@@ -27,7 +23,6 @@ $userLoggedIn = isset($_SESSION['user_nickname']) ? $_SESSION['user_nickname'] :
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
     <style>
-        /* Estilos personalizados para a navbar */
         .navbar {
             border: none;
             width: 100%;

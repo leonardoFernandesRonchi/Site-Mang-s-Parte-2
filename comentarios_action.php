@@ -1,5 +1,5 @@
 <?php
-session_start(); // Inicia a sessão no início do script
+session_start(); 
 
 require_once("globals.php");
 require_once("db.php");
@@ -11,10 +11,9 @@ require_once("dao/UserDAO.php");
 $message = new Message($BASE_URL);
 $comentarioDao = new ComentarioDAO($conn, $BASE_URL);
 
-// Variável para verificar o estado do usuário logado
+
 $usuario_id = $_SESSION['user_id'] ?? null;
 
-// Verificar se o usuário está logado
 if (!$usuario_id) {
     $message->setMessage("Você precisa estar logado para comentar.", "error", "home.php");
     exit;
@@ -33,13 +32,11 @@ if (!$manhwa_id) {
     exit;
 }
 
-// Criar um objeto de comentário
 $comentario = new Comentario();
 $comentario->texto = $texto;
 $comentario->manhwa_id = $manhwa_id;
 $comentario->usuario_id = $usuario_id;
 
-// Tentar salvar o comentário
 if ($comentarioDao->create($comentario)) {
     $message->setMessage("Comentário adicionado com sucesso!", "success", "manhwa.php?id={$manhwa_id}");
 } else {

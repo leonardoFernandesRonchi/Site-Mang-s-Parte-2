@@ -110,7 +110,7 @@ class UserDAO implements UserDAOInterface {
                 $user->token = $token;
     
                 $this->update($user);
-                return $user; // Retorna o objeto do usuário
+                return $user; 
             }
             return false;
     

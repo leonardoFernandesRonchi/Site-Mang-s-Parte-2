@@ -1,7 +1,7 @@
 <style>
-    /* Footer personalizado */
+   
     .custom-footer {
-        background-color: #d9534f; /* Vermelho escuro, combinando com a navbar */
+        background-color: #d9534f; 
         color: #fff;
         padding: 20px 0;
         text-align: center;
@@ -18,13 +18,12 @@
         margin: 0 10px;
         font-size: 20px;
     }
-    /* Remove bordas da navbar */
     .footer {
-        margin: 0; /* Remove margens indesejadas do footer */
+        margin: 0; 
     }
     @media (max-width: 576px) {
         .custom-footer .row {
-            text-align: center; /* Centraliza o texto no footer em telas menores */
+            text-align: center; 
         }
     }
 </style>

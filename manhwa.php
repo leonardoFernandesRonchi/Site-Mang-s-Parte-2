@@ -4,14 +4,12 @@ require_once("templates/header.php");
 require_once("models/User.php");
 require_once("dao/UserDAO.php");
 
-// Configurações do banco de dados
 $server_name = "localhost";
 $mysql_username = "root";
 $mysql_password = "";
 $db_name = "meuproprioprojeto2";
 $userLoggedIn = isset($_SESSION['user_nickname']) ? $_SESSION['user_nickname'] : null;
 
-// Conexão com o banco de dados
 try {
     $conn = new PDO("mysql:host=$server_name;port=3309;dbname=$db_name", $mysql_username, $mysql_password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -19,28 +17,24 @@ try {
     die("Conexão falhou: " . $e->getMessage());
 }
 
-// Função para retornar uma URL aleatória de imagem de perfil em estilo desenho
 function getRandomProfileImage() {
     $images = [
-        "https://robohash.org/" . rand() . "?set=set4", // RoboHash estilo desenho
+        "https://robohash.org/" . rand() . "?set=set4", 
         
     ];
     return $images[array_rand($images)];
 }
 
-// Verifica se o ID do manhwa foi fornecido
 if (isset($_GET['id'])) {
     $manhwa_id = (int) $_GET['id'];
 
-    // Busca os detalhes do manhwa no banco de dados
+    
     $stmt = $conn->prepare("SELECT * FROM manhwas WHERE id = :id");
     $stmt->bindParam(':id', $manhwa_id, PDO::PARAM_INT);
     $stmt->execute();
     $manhwa = $stmt->fetch(PDO::FETCH_OBJ);
 
-    // Verifica se o manhwa foi encontrado
     if ($manhwa) {
-        // Exibe os detalhes do manhwa
         echo "<div class='container mt-5'>
                 <div class='row'>
                     <div class='col-md-6'>
@@ -53,7 +47,6 @@ if (isset($_GET['id'])) {
                     </div>
                 </div>";
 
-        // Formulário de comentário (aparece se o usuário estiver logado)
         if ($userLoggedIn) {
             echo "<div class='row mt-5 mb-3'>
                     <div class='col-md-8 mx-auto'>
@@ -72,7 +65,6 @@ if (isset($_GET['id'])) {
             echo "<p class='alert alert-info'>Você precisa estar logado para comentar.</p>";
         }
 
-        // Exibe os comentários existentes
         $stmt = $conn->prepare("SELECT c.*, u.nickname FROM comentarios c INNER JOIN usuarios u ON c.usuario_id = u.id WHERE c.manhwa_id = :manhwa_id ORDER BY c.id DESC");
         $stmt->bindParam(':manhwa_id', $manhwa_id, PDO::PARAM_INT);
         $stmt->execute();
