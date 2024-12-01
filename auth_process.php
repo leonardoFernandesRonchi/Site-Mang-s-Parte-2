@@ -17,7 +17,7 @@ if ($type === "register") {
     $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
     $password = filter_input(INPUT_POST, "senha");
     $confirmPassword = filter_input(INPUT_POST, "confirm_password");
-    $sobremim = "";  // Sobremim está vazio por padrão
+    $sobremim = ""; // Sobremim está vazio por padrão
 
     // Validação dos campos obrigatórios
     if ($nickname && $email && $password && $confirmPassword) {
@@ -60,8 +60,10 @@ if ($type === "register") {
         $authResult = $userDao->authenticateUser($email, $password);
 
         if ($authResult) {
-            // Salva o nickname do usuário na sessão
+            // Salva o ID e o nickname do usuário na sessão
+            $_SESSION['user_id'] = $authResult->id; // ID do usuário autenticado
             $_SESSION['user_nickname'] = $authResult->nickname; 
+
             $message->setMessage("Login realizado com sucesso!", "success", "home.php");
             exit();
         } else {
