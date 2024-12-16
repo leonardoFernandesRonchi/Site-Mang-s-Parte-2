@@ -74,17 +74,42 @@ if (isset($_GET['id'])) {
                 <div class='col-md-8 mx-auto'>
                     <h3 class='mb-4 text-primary'>Comentários</h3>";
 
-        if ($comments) {
-            foreach ($comments as $comment) {
-                echo "<div class='border rounded p-3 mb-3' style='background-color: #f8f9fa;'>
-                        <div class='d-flex align-items-center mb-2'>
-                            <img src='" . getRandomProfileImage() . "' alt='Avatar' class='rounded-circle me-2' style='width: 40px; height: 40px;'>
-                            <h5 class='fw-bold text-secondary mb-0'>" . htmlspecialchars($comment->nickname) . "</h5>
-                        </div>
-                        <p>" . htmlspecialchars($comment->texto) . "</p>
-                      </div>";
-            }
-        } else {
+
+                    if ($comments) {
+                        // Obtém o ID do usuário logado
+                    
+                        // Instancia o UserDAO
+                        $userDAO = new UserDAO($conn, $message);
+                    
+        
+                    
+                        // Itera pelos comentários
+                        foreach ($comments as $comment) {
+                            echo "
+                            <div class='border rounded p-3 mb-4 d-flex justify-content-between align-items-start' style='background-color: #f8f9fa;'>
+                                <div class='d-flex align-items-start'>
+                                    <img src='" . getRandomProfileImage() . "' alt='Avatar' class='rounded-circle me-2' style='width: 40px; height: 40px;'>
+                                    <div>
+                                        <h5 class='fw-bold text-secondary mb-1'>" . htmlspecialchars($comment->nickname) . "</h5>
+                                        <p class='mb-0'>" . htmlspecialchars($comment->texto) . "</p>
+                                    </div>
+                                </div>";
+                            
+                            // Exibe o ícone de exclusão apenas se o nome do usuário for igual ao nome do comentário
+                            if ($userLoggedIn === $comment->nickname) {
+                                echo "
+                                <div class='ms-auto'>
+                                    <i class='bi bi-trash' style='cursor: pointer; font-size: 1.2rem; color: #dc3545;' title='Excluir comentário'></i>
+                                </div>";
+                            }
+                        
+                            echo "</div>";
+                        }
+                        
+                        
+
+                    }
+       else {
             echo "<p class='text-muted'>Nenhum comentário ainda. Seja o primeiro a comentar!</p>";
         }
 
